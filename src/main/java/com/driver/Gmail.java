@@ -32,7 +32,7 @@ public class Gmail extends Email {
     }
 
     public Gmail(String emailId) {
-        super();
+        super(emailId);
         this.inboxCapacity=Integer.MAX_VALUE;
     }
 
