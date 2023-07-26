@@ -1,5 +1,5 @@
 package com.driver;
-import java.util.*;
+
 public class Email {
 
     private String emailId;
@@ -33,10 +33,26 @@ public class Email {
           if(!oldPassword.equals(password)||newPassword.length()<8)
               return ;
 
-          boolean checkUpperCase=checkingUpper(newPassword);
-          boolean lowerCase=checkingLower(newPassword);
-          boolean numbers=checkingNumbers(newPassword);
-          boolean specialChar=checkingSpecialChar(newPassword);
+          boolean checkUpperCase=false;
+          boolean lowerCase=false;
+          boolean numbers=false;
+          boolean specialChar=false;
+
+              for(int i=0; i<newPassword.length(); i++)
+              {
+                  char c=newPassword.charAt(i);
+
+                  if(c>='a'&&c<='z')
+                      lowerCase=true;
+                 else if(c>='A'&&c<='Z')
+                      checkUpperCase=true;
+                else  if(c>='0'&&c<='9')
+                      numbers=true;
+                  else
+                      specialChar=true;
+
+              }
+
 
           if(checkUpperCase&&lowerCase&&numbers&&specialChar)
           {
@@ -45,69 +61,7 @@ public class Email {
 
     }
 
-    public boolean check(HashSet<Character> chset,String password)
-    {
-        for(int i=0; i<password.length(); i++)
-        {
-            char c=password.charAt(i);
-            if(chset.contains(c)) return true;
-        }
-        return false;
+
     }
 
-    public boolean checkingUpper(String password)
-    {
-        HashSet<Character> set = new HashSet<>();
 
-          for(char c='A'; c<='Z'; c++)
-          {
-              set.add(c);
-          }
-
-          return check(set, password);
-    }
-
-    public boolean checkingLower(String pass)
-    {
-        HashSet<Character> set = new HashSet<>();
-
-        for(char c='a'; c<='z'; c++)
-        {
-            set.add(c);
-        }
-        return check(set, password);
-    }
-    public boolean checkingNumbers(String pass)
-    {
-        HashSet<Character> set = new HashSet<>();
-
-        for(char c='0'; c<='9'; c++)
-        {
-            set.add(c);
-        }
-        return check(set, password);
-    }
-    public boolean checkingSpecialChar(String pass)
-    {
-        HashSet<Character> uppercharset = new HashSet<>();
-        for(char c='A'; c<='Z'; c++)
-            uppercharset.add(c);
-
-        HashSet<Character> lowerCharset = new HashSet<>();
-        for(char c='a'; c<='z'; c++)
-            lowerCharset.add(c);
-
-        HashSet<Character> numberset = new HashSet<>();
-        for(char c='0'; c<='9'; c++)
-            numberset.add(c);
-
-          for(int i=0; i<pass.length(); i++)
-          {
-              char c=pass.charAt(i);
-              if(!lowerCharset.contains(c)&&!uppercharset.contains(c)&&!numberset.contains(c))
-                  return true;
-          }
-        return false;
-    }
-
-}
