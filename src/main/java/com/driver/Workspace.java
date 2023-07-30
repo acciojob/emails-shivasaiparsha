@@ -29,40 +29,33 @@ public class Workspace extends Gmail{
         // 2. If you want to attend a meeting, you must join it at its start time and leave at end time.
         // Example: If a meeting ends at 10:00 am, you cannot attend another meeting starting at 10:00 am
 
-             if(calendar.size()==0) return 0;
-          int cntMeetings=0;
-          Collections.sort(calendar, (a,b)->
 
-                    a.getStartTime().compareTo(b.getEndTime())
-                  );
+        if (this.calendar.size() == 0) {
+            return 0;
+        } else {
 
+            Collections.sort(this.calendar, (a, b) -> {
+                return a.getStartTime().compareTo(b.getEndTime());
+            });
+            LocalTime lastmeetEndDate = ((Meeting) this.calendar.get(0)).getEndTime();
+            int cnt = 0;
+            int cnt1 = this.calendar.size() - 1;
 
-
-
-                 LocalTime lastmeetEndDate=calendar.get(0).getEndTime();
-
-                 int cnt=0;
-                 int cnt1=calendar.size()-1;
-
-                 for(int i=1; i<calendar.size(); i++)
-                 {
-                    Meeting m=calendar.get(i);
-
-                    LocalTime cs = m.getStartTime();
-                    LocalTime ce = m.getEndTime();
-
-                    if(cs.compareTo(lastmeetEndDate)<0)
-                    {
-                        cnt++;
-                        if(ce.compareTo(lastmeetEndDate)<0)
-                            lastmeetEndDate=ce;
+            for (int i = 1; i < this.calendar.size(); ++i) {
+                Meeting m = (Meeting) this.calendar.get(i);
+                LocalTime cs = m.getStartTime();
+                LocalTime ce = m.getEndTime();
+                if (cs.compareTo(lastmeetEndDate) < 0) {
+                    ++cnt;
+                    if (ce.compareTo(lastmeetEndDate) < 0) {
+                        lastmeetEndDate = ce;
                     }
-                    else
-                        lastmeetEndDate=ce;
+                } else {
+                    lastmeetEndDate = ce;
+                }
+            }
 
-
-                 }
-
-                 return calendar.size()-cnt;
-    }
+            return this.calendar.size() - cnt;
+        }
+        }
 }
